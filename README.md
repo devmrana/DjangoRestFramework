@@ -1,4 +1,5 @@
 # DjangoRestFramework
 ----------------------
-pthon3.9
-django4.1
+pthon 3.9
+django 4.1
+rest_framework 3.14
