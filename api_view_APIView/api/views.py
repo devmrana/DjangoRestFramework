@@ -40,6 +40,11 @@ def StudentInfo(request,pk=None):
       serializer.save()
       return Response({'msg':'Partial Update'})
     return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+  
+  if request.method == 'DELETE':
+    student = Student.objects.get(id=pk)
+    student.delete()
+    return Response({'msg':'Data Deleted!!'})
 
 # Class based APIView
 from rest_framework.views import APIView
@@ -60,7 +65,8 @@ class StudentInfoAPIView(APIView):
       serializer.save()
       return Response({'msg':'Data Created'},status=status.HTTP_201_CREATED)
     return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-
+  
+  # PUT => full update
   def put(self,request,format=None,pk=None):
     # id = pk
     stu = Student.objects.get(id=pk)
@@ -70,6 +76,7 @@ class StudentInfoAPIView(APIView):
       return Response({'msg':'Data Update'})
     return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
+  # patch partial
   def patch(self,request,format=None,pk=None):
     stu = Student.objects.get(id=pk)
     serializer = StudentSerializer(stu,data=request.data, partial=True)
