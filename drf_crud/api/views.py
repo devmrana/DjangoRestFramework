@@ -80,22 +80,26 @@ from django.views import View
 @method_decorator(csrf_exempt,name='dispatch')
 class StudentClassBasedAPI(View):
     def get(self,request, *args, **kwargs):
-        json_data = request.body
-        stream = io.BytesIO(json_data)
-        pythondata = JSONParser().parse(stream)
-        id = pythondata.get('id',None)
-        if id is not None:
-            stu = Student.objects.get(id=id)
-            serializer = StudentSerializer(stu)
-            json_data = JSONRenderer().render(serializer.data)
-            return HttpResponse(json_data, content_type='application/json')
-        else:
-            stu = Student.objects.all()
-            serializer = StudentSerializer(stu,many=True)
-            # json_data = JSONRenderer().render(serializer.data)
-            # return HttpResponse(json_data, content_type='application/json')
-            return JsonResponse(serializer.data, safe=False)
-    
+        try:
+            json_data = request.body
+            stream = io.BytesIO(json_data)
+            pythondata = JSONParser().parse(stream)
+            id = pythondata.get('id',None)
+            if id is not None:
+                stu = Student.objects.get(id=id)
+                serializer = StudentSerializer(stu)
+                json_data = JSONRenderer().render(serializer.data)
+                return HttpResponse(json_data, content_type='application/json')
+            else:
+                stu = Student.objects.all()
+                serializer = StudentSerializer(stu,many=True)
+                # json_data = JSONRenderer().render(serializer.data)
+                # return HttpResponse(json_data, content_type='application/json')
+                return JsonResponse(serializer.data, safe=False)
+        except Exception as m:
+            response = JsonResponse({"msg":m.args})
+            response.status_code = 500
+            return response
     def post(self,request, *args, **kwargs):
         json_data = request.body
         stream = io.BytesIO(json_data)

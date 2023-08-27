@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import Student
 
 class StudentSerializer(serializers.Serializer):
-    # id = serializers.IntegerField()
+    id = serializers.IntegerField()
     name = serializers.CharField()
     stdclass = serializers.IntegerField()
     roll = serializers.IntegerField()

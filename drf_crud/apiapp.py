@@ -1,8 +1,8 @@
 import requests
 import json
 
-URL = "http://localhost:8000/" # Function Based url 
-# URL = "http://localhost:8000/stdclsapi/" # Classe Based url
+# URL = "http://localhost:8000/" # Function Based url 
+URL = "http://localhost:8000/stdclsapi/" # Classe Based url
 
 def get_data(id=None):
     data = {}
@@ -13,7 +13,7 @@ def get_data(id=None):
     r = requests.get(url = URL, data=json_data)
     data = r.json()
     print(data)
-# get_data()
+get_data()
 
 
 # Create data
@@ -53,5 +53,5 @@ def delete_data():
     data = r.json()
     print(data)
 # delete_data()
-get_data()
+# get_data()
 
